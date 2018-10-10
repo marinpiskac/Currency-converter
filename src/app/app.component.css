@@ -1,0 +1,21 @@
+.no-margin{
+  margin: 0;
+}
+
+.currencyAmountInput{
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.horizontalDivider{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  padding-bottom: 0 !important;
+}

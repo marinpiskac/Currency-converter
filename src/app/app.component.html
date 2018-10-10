@@ -1,0 +1,104 @@
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-8">
+      <h1 style="font-weight: bold; font-size: 2rem; padding-bottom: 1rem">Currency converter</h1>
+      <form [formGroup]="conversionForm">
+        <mat-card>
+          <mat-card-title>
+            <div class="row align-items-center">
+              <div class="col-10">
+                <div class="row no-margin">
+                  <div class="col-10">
+                    <input class="currencyAmountInput" formControlName="amount" min="0"
+                           (keyup)="amountChange()" matInput type="number" placeholder="0"
+                           title="fromAmount" (keypress)="restrictSpecialCharacters($event)">
+                  </div>
+                  <div class="col-2">
+                    <mat-form-field class="mat-form-field">
+                      <input
+                        type="text"
+                        placeholder="From"
+                        aria-label="From"
+                        matInput
+                        formControlName="from"
+                        (change)="currencyChange()"
+                        (focus)="forceFromCurrencyUpdates()"
+                        (blur)="checkFromCurrency()"
+                        [matAutocomplete]="from">
+
+                      <mat-autocomplete #from="matAutocomplete" (optionSelected)="currencyChange()">
+                        <mat-option
+                          *ngFor="let currencyFrom of filteredCurrenciesFrom | async"
+                          [value]="currencyFrom">
+                          {{currencyFrom}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <hr class="horizontalDivider">
+                <div class="row no-margin">
+                  <div class="col-10">
+                    <input class="currencyAmountInput" formControlName="resultingAmount" matInput type="number" placeholder="0" title="toAmount">
+                  </div>
+                  <div class="col-2">
+                    <mat-form-field class="mat-form-field">
+                      <input
+                        type="text"
+                        placeholder="To"
+                        aria-label="To"
+                        matInput
+                        formControlName="to"
+                        (change)="currencyChange()"
+                        (focus)="forceToCurrencyUpdates()"
+                        (blur)="checkToCurrency()"
+                        [matAutocomplete]="to">
+
+                      <mat-autocomplete #to="matAutocomplete" (optionSelected)="currencyChange()">
+                        <mat-option
+                          *ngFor="let currencyTo of filteredCurrenciesTo | async"
+                          [value]="currencyTo">
+                          {{currencyTo}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2" (click)="switchCurrencies()">
+                <i class="material-icons">
+                  arrow_downward
+                </i>
+                <i class="material-icons">
+                  arrow_upward
+                </i>
+              </div>
+            </div>
+          </mat-card-title>
+
+          <mat-card-content *ngIf="selectedCurrencyQuotes.length!=0">
+            <div class="container" style="padding-top: 3rem">
+              <div class="row align-items-center">
+                <div class="col-3"></div>
+                <div class="col-2 font-weight-bold">PRICE</div>
+                <div class="col-2 font-weight-bold">ASK</div>
+                <div class="col-2 font-weight-bold">BID</div>
+              </div>
+              <div class="row align-items-center" *ngFor="let currencyQuote of selectedCurrencyQuotes">
+                <div class="col-3 font-weight-bold">
+                  1 {{currencyQuote.symbol.currency1}}
+                  <i class="material-icons" style="vertical-align: bottom; font-size: 1.25rem">
+                    arrow_forward
+                  </i> {{currencyQuote.symbol.currency2}}
+                </div>
+                <div class="col-2">{{currencyQuote.price}}</div>
+                <div class="col-2">{{currencyQuote.ask}}</div>
+                <div class="col-2">{{currencyQuote.bid}}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>
